@@ -1,9 +1,6 @@
-﻿using Azure;
-using Microsoft.Data.SqlClient;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -20,37 +17,41 @@ namespace CustomersStore
 
         [Key]
         public int Id { get { return _id; } set { _id = value; } }
-        public string Name { 
-            get {return _name; }
-            set 
-            { 
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
                 _name = value;
                 OnPropertyChanged("Name");
             }
         }
-        public string CompanyName {
+        public string CompanyName
+        {
             get { return _companyName; }
-            set 
-            { 
+            set
+            {
                 _companyName = value;
                 OnPropertyChanged("CompanyName");
-            } 
+            }
         }
-        public string Phone {
+        public string Phone
+        {
             get { return _phone; }
-            set 
+            set
             {
                 _phone = value;
                 OnPropertyChanged("Phone");
-            } 
+            }
         }
-        public string Email {
+        public string Email
+        {
             get { return _email; }
-            set 
-            { 
+            set
+            {
                 _email = value;
                 OnPropertyChanged("Email");
-            } 
+            }
         }
 
         public string this[string columnName]
@@ -73,14 +74,14 @@ namespace CustomersStore
                         }
                         break;
                     case "Phone":
-                        
+
                         if (!Int32.TryParse(Phone, out var number))
                         {
                             error = "Phone number must contains only digits";
                         }
                         break;
                     case "Email":
-                        if(!RegexHelper.IsValidEmail(Email))
+                        if (!RegexHelper.IsValidEmail(Email))
                         {
                             error = "Please enter correct email";
                         }
@@ -89,7 +90,7 @@ namespace CustomersStore
                 return error;
             }
         }
-    
+
         public string Error => throw new System.NotImplementedException();
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -102,7 +103,7 @@ namespace CustomersStore
         {
             ApplicationContext db = new ApplicationContext();
             var customer = db.Customers.Where(x => x.Name == name).FirstOrDefault();
-            if(customer == null || customer.Id == id) return true;
+            if (customer == null || customer.Id == id) return true;
             return false;
         }
     }

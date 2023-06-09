@@ -20,7 +20,7 @@ namespace CustomersStore
             db.Customers.Load();
             Customers = db.Customers.Local.ToObservableCollection();
         }
-        // команда добавления
+
         public RelayCommand AddCommand
         {
             get
@@ -38,7 +38,7 @@ namespace CustomersStore
                   }));
             }
         }
-        // команда редактирования
+
         public RelayCommand EditCommand
         {
             get
@@ -89,7 +89,7 @@ namespace CustomersStore
                   }));
             }
         }
-           
+
         public void Filter(DataGridColumnHeader columnHeader)
         {
             string columnName = columnHeader.Content.ToString();

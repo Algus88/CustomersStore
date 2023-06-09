@@ -16,7 +16,7 @@ namespace CustomersStore
 
         public ApplicationContext()
         {
-            if (Database.EnsureCreated()) 
+            if (Database.EnsureCreated())
                 AddFilterStoredProcedure();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -26,13 +26,13 @@ namespace CustomersStore
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Customer>().HasData(
-                    new Customer { Id= 1, Name = "First", CompanyName = "Amazon", Phone = "123435", Email = "first@test.com" },
+                    new Customer { Id = 1, Name = "First", CompanyName = "Amazon", Phone = "123435", Email = "first@test.com" },
                     new Customer { Id = 2, Name = "Second", CompanyName = "Microsoft", Phone = "2354645", Email = "second@test.com" },
                     new Customer { Id = 3, Name = "Third", CompanyName = "Netflix", Phone = "345463", Email = "third@test.com" },
                     new Customer { Id = 4, Name = "Fourth", CompanyName = "Apple", Phone = "3637346", Email = "fourth@test.com" });
         }
 
-        
+
         private async Task AddFilterStoredProcedure()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
