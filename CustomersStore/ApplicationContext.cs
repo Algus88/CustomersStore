@@ -6,13 +6,13 @@ namespace CustomersStore
 {
     public class ApplicationContext : DbContext
     {
-        private readonly string connectionString = @"Data Source=DESKTOP-2JRQRJM\SQLEXPRESS;Initial Catalog=CustomersDB2;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        private readonly string connectionString = @"";
         public DbSet<Customer> Customers { get; set; } = null!;
 
         public ApplicationContext()
         {
             if (Database.EnsureCreated())
-                AddFilterStoredProcedure();
+                _ = AddFilterStoredProcedure();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -30,10 +30,9 @@ namespace CustomersStore
 
         private async Task AddFilterStoredProcedure()
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                await connection.OpenAsync();
-                string addFilterCommand = @"CREATE PROCEDURE [dbo].[Sorting]
+            SqlConnection connection = new(connectionString);
+            await connection.OpenAsync();
+            string addFilterCommand = @"CREATE PROCEDURE [dbo].[Sorting]
                                             @filterParameter NVARCHAR(100),
                                             @sortingDirection NVARCHAR(10)
 
@@ -63,9 +62,8 @@ namespace CustomersStore
 			                                            WHEN @filterParameter = 'Email' THEN Email
 		                                            END
 	                                            END DESC;";
-                SqlCommand command = new SqlCommand(addFilterCommand, connection);
-                var result = command.ExecuteNonQuery();
-            }
+            SqlCommand command = new SqlCommand(addFilterCommand, connection);
+            await command.ExecuteNonQueryAsync();
         }
     }
 
