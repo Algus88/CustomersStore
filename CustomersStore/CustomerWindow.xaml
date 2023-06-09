@@ -1,0 +1,74 @@
+﻿<Window x:Class="CustomersStore.CustomerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:customersstore="clr-namespace:CustomersStore" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" d:DataContext="{d:DesignInstance Type=customersstore:Customer}"
+        mc:Ignorable="d"
+        Title="Customer" Height="645" Width="773">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="8,49,8,34" />
+            <Setter Property="Height" Value="50" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="8" />
+            <Setter Property="Height" Value="20" />
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip"
+                    Value="{Binding RelativeSource={RelativeSource Self},
+                    Path=(Validation.Errors)[0].ErrorContent}" />
+                    <Setter Property="Foreground" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="MinWidth" Value="60" />
+            <Setter Property="Margin" Value="8" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions >
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Name" />
+        <TextBlock Text="Company name" Grid.Row="1" />
+        <TextBlock Text="Phone" Grid.Row="2" />
+        <TextBlock Text="Email" Grid.Row="3" />
+
+        <TextBox Name="Name" Text="{Binding Path=Name, ValidatesOnDataErrors=True}" Grid.Column="1"/>
+        <TextBox Name="CompanyName" Text="{Binding Path=CompanyName, ValidatesOnDataErrors=True}" Grid.Column="1" Grid.Row="1"/>
+        <TextBox Name="Phone" Text="{Binding Path=Phone, ValidatesOnDataErrors=True}" Grid.Column="1" Grid.Row="2"/>
+        <TextBox Name="Email" Text="{Binding Path=Email, ValidatesOnDataErrors=True}" Grid.Column="1" Grid.Row="3"/>
+
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="3" Grid.Column="1" Margin="0,126,0,0" Grid.RowSpan="2" Width="264">
+            <Button Name="Ok" IsDefault="True" Click="Accept_Click" Width="114" Height="48" >Ok
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Name}" Value="False"/>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=CompanyName}" Value="False"/>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Phone}" Value="False"/>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Email}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="True"/>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Name="Cancel" IsCancel="True" Height="53" Width="107" >Cancel</Button>
+        </StackPanel>
+    </Grid>
+</Window>
